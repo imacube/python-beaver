@@ -133,6 +133,9 @@ class BeaverConfig():
             # kill and respawn worker process after given number of seconds
             'refresh_worker_process': '',
 
+            # Worker Queue Producer loop interval
+            'worker_loop_interval': None,
+
             # time in seconds to wait on queue.get() block before raising Queue.Empty exception
             'wait_timeout': '5',
 

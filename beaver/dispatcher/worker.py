@@ -68,7 +68,7 @@ def run(args=None):
 
     def create_queue_producer():
         worker = Worker(beaver_config, queue_consumer_function=create_queue_consumer, callback=queue.put, logger=logger)
-        worker.loop(interval=10)
+        worker.loop(interval=beaver_config.get('worker_loop_interval'))
 
     while 1:
 
