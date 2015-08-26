@@ -20,18 +20,18 @@ Using PIP:
 
 From Github::
 
-    pip install git+git://github.com/josegonzalez/python-beaver.git@33.3.0#egg=beaver
+    pip install git+git://github.com/josegonzalez/python-beaver.git@34.1.0#egg=beaver
 
 From PyPI::
 
-    pip install beaver==33.3.0
+    pip install beaver==34.1.0
 
 Documentation
 =============
 
 Full documentation is available online at http://beaver.readthedocs.org/
 
-You can also build the docs locally:
+You can also build the docs locally::
 
     # get sphinx installed
     pip install sphinx

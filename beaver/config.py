@@ -89,6 +89,11 @@ class BeaverConfig():
             'redis_namespace': os.environ.get('REDIS_NAMESPACE', 'logstash:beaver'),
             'redis_data_type': os.environ.get('REDIS_DATA_TYPE', 'list'),
             'redis_password': '',
+            'sns_aws_access_key': '',
+            'sns_aws_secret_key': '',
+            'sns_aws_profile_name': '',
+            'sns_aws_region': 'us-east-1',
+            'sns_aws_topic_arn': '',
             'sqs_aws_access_key': '',
             'sqs_aws_secret_key': '',
             'sqs_aws_region': 'us-east-1',
@@ -105,6 +110,7 @@ class BeaverConfig():
             'tcp_ssl_verify': '0',
             'tcp_ssl_cacert': '',
             'tcp_ssl_cert': '',
+            'tcp_ssl_key':'',
             'udp_host': os.environ.get('UDP_HOST', '127.0.0.1'),
             'udp_port': os.environ.get('UDP_PORT', '9999'),
             'zeromq_address': os.environ.get('ZEROMQ_ADDRESS', 'tcp://localhost:2120'),
@@ -119,6 +125,9 @@ class BeaverConfig():
             # exponential backoff
             'respawn_delay': '3',
             'max_failure': '7',
+
+            # consumer processes
+            'number_of_consumer_processes': '1',
 
             # interprocess queue max size before puts block
             'max_queue_size': '100',
@@ -316,7 +325,8 @@ class BeaverConfig():
                 'logstash_version',
                 'kafka_batch_n',
                 'kafka_batch_t',
-                'kafka_ack_timeout'
+                'kafka_ack_timeout',
+                'number_of_consumer_processes'
             ]
             for key in require_int:
                 if config[key] is not None:

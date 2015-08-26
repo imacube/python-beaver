@@ -10,12 +10,20 @@ from beaver.config import BeaverConfig
 from beaver.transports import create_transport
 from beaver.transports.base_transport import BaseTransport
 
+try:
+    from beaver.transports.zmq_transport import ZmqTransport
+    zmqSkip = False
+except ImportError, e:
+    if e.message == 'No module named zmq':
+        zmqSkip = True
+    else:
+        raise
 
 class DummyTransport(BaseTransport):
     pass
 
 
-with mock.patch('pika.adapters.BlockingConnection', autospec=True) as mock_pika:
+with mock.patch('pika.adapters.SelectConnection', autospec=True) as mock_pika:
 
     class TransportConfigTests(unittest.TestCase):
         def setUp(self):
@@ -25,7 +33,7 @@ with mock.patch('pika.adapters.BlockingConnection', autospec=True) as mock_pika:
             empty_conf = tempfile.NamedTemporaryFile(delete=True)
             return BeaverConfig(mock.Mock(config=empty_conf.name, **kwargs))
 
-        @mock.patch('pika.adapters.BlockingConnection', mock_pika)
+        @mock.patch('pika.adapters.SelectConnection', mock_pika)
         def test_builtin_rabbitmq(self):
             beaver_config = self._get_config(transport='rabbitmq')
             transport = create_transport(beaver_config, logger=self.logger)
@@ -47,10 +55,11 @@ with mock.patch('pika.adapters.BlockingConnection', autospec=True) as mock_pika:
             transport = create_transport(beaver_config, logger=self.logger)
             self.assertIsInstance(transport, beaver.transports.udp_transport.UdpTransport)
 
+        @unittest.skipIf(zmqSkip, 'zmq not installed')
         def test_builtin_zmq(self):
             beaver_config = self._get_config(transport='zmq')
             transport = create_transport(beaver_config, logger=self.logger)
-            self.assertIsInstance(transport, beaver.transports.zmq_transport.ZmqTransport)
+            self.assertIsInstance(transport, ZmqTransport)
 
         def test_custom_transport(self):
             beaver_config = self._get_config(transport='beaver.tests.test_transport_config.DummyTransport')
