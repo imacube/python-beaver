@@ -90,6 +90,7 @@ def run(args=None):
                     if beaver_config.get('refresh_worker_process') < time.time() - t:
                         logger.info('Worker has exceeded refresh limit. Terminating process...')
                         cleanup(None, None)
+                time.sleep(1)
 
         except KeyboardInterrupt:
             pass
