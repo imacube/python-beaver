@@ -478,7 +478,7 @@ class Worker(object):
             else:
                 if not stat.S_ISREG(st.st_mode):
                     continue
-                elif datetime.datetime.fromtimestamp(st.st_mtime) < (datetime.datetime.today() - datetime.timedelta(days=1)):
+                elif datetime.datetime.fromtimestamp(st.st_mtime) < (datetime.datetime.today() - datetime.timedelta(days=self._beaver_config.get('ignore_old_files'))):
                     self._logger.debug('[{0}] - file {1} older then 1 day so ignoring'.format(self.get_file_id(st), absname))
                     continue
                 fid = self.get_file_id(st)
