@@ -480,7 +480,7 @@ class Worker(object):
                 if not stat.S_ISREG(st.st_mode):
                     continue
                 elif datetime.fromtimestamp(st.st_mtime) < (datetime.today() - timedelta(days=-1)):
-                    self._logger.debug('[{0}] - file older then 1 day so ignoring'.format(self.get_file_id(st), absname))
+                    self._logger.debug('[{0}] - file {1} older then 1 day so ignoring'.format(self.get_file_id(st), absname))
                     continue
                 fid = self.get_file_id(st)
                 ls.append((fid, absname))
