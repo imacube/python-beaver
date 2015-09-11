@@ -9,6 +9,7 @@ import signal
 import sqlite3
 import stat
 import time
+from datetime import timedelta, datetime
 import threading
 
 from beaver.utils import IS_GZIPPED_FILE, REOPEN_FILES, eglob, multiline_merge
@@ -477,6 +478,9 @@ class Worker(object):
                     raise
             else:
                 if not stat.S_ISREG(st.st_mode):
+                    continue
+                elif datetime.fromtimestamp(st.st_mtime) < (datetime.today() - timedelta(days=-1)):
+                    self._logger.debug('[{0}] - file older then 1 day so ignoring'.format(self.get_file_id(st), absname))
                     continue
                 fid = self.get_file_id(st)
                 ls.append((fid, absname))
