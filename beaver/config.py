@@ -181,7 +181,7 @@ class BeaverConfig():
             'pid': '',
 
             # Ignore files older then n days, use 0 to disable
-            'ignore_old_files': 1
+            'ignore_old_files': 0
         }
 
         self._configfile = args.config
