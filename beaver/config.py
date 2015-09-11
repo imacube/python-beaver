@@ -99,10 +99,10 @@ class BeaverConfig():
             'sqs_aws_region': 'us-east-1',
             'sqs_aws_queue': '',
             'sqs_aws_queue_owner_acct_id': '',
-            'kinesis_aws_access_key': '', 
-            'kinesis_aws_secret_key': '', 
-            'kinesis_aws_region': 'us-east-1', 
-            'kinesis_aws_stream': '', 
+            'kinesis_aws_access_key': '',
+            'kinesis_aws_secret_key': '',
+            'kinesis_aws_region': 'us-east-1',
+            'kinesis_aws_stream': '',
             'kinesis_aws_batch_size_max': '512000',
             'tcp_host': '127.0.0.1',
             'tcp_port': '9999',
@@ -179,6 +179,9 @@ class BeaverConfig():
             'debug': '0',
             'daemonize': '0',
             'pid': '',
+
+            # Ignore files older then n days, use 0 to disable
+            'ignore_old_files': 0
         }
 
         self._configfile = args.config
