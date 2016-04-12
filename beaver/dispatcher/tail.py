@@ -80,7 +80,7 @@ def run(args=None):
             callback=queue_put,
             logger=logger
         )
-        manager.run()
+        manager.run(interval=beaver_config.get('worker_loop_interval'))
 
     while 1:
 
