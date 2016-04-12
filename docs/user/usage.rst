@@ -54,7 +54,7 @@ Beaver can optionally get data from a ``configfile`` using the ``-c`` flag. This
 * kafka_batch_t: Default ``10``. Batch log message timeout
 * mqtt_host: Default ``localhost``. Host for mosquitto
 * mqtt_port: Default ``1883``. Port for mosquitto
-* mqtt_clientid: Default ``mosquitto``. Mosquitto client id
+* mqtt_clientid: Default ``paho``. Paho client id
 * mqtt_keepalive: Default ``60``. mqtt keepalive ping
 * mqtt_topic: Default ``/logstash``. Topic to publish to
 * rabbitmq_host: Defaults ``localhost``. Host for RabbitMQ
@@ -72,6 +72,7 @@ Beaver can optionally get data from a ``configfile`` using the ``-c`` flag. This
 * rabbitmq_exchange_durable: Default ``0``.
 * rabbitmq_key: Default ``logstash-key``.
 * rabbitmq_exchange: Default ``logstash-exchange``.
+* rabbitmq_timeout: Default ``1``. The timeout in seconds for the connection to the RabbitMQ broker
 * rabbitmq_delivery_mode: Default ``1``. Message deliveryMode. 1: non persistent 2: persistent
 * redis_url: Default ``redis://localhost:6379/0``. Comma separated redis URLs
 * redis_namespace: Default ``logstash:beaver``. Redis key namespace
@@ -83,9 +84,11 @@ Beaver can optionally get data from a ``configfile`` using the ``-c`` flag. This
 * sns_aws_topic_arn: Topic ARN (must exist)
 * sqs_aws_access_key: Can be left blank to use IAM Roles or AWS_ACCESS_KEY_ID environment variable (see: https://github.com/boto/boto#getting-started-with-boto)
 * sqs_aws_secret_key: Can be left blank to use IAM Roles or AWS_SECRET_ACCESS_KEY environment variable (see: https://github.com/boto/boto#getting-started-with-boto)
+* sqs_aws_profile_name: Can be left blank to use IAM Roles AWS_SECRET_ACCESS_KEY environment variable, or fixed keypair (above) (see: https://github.com/boto/boto#getting-started-with-boto)
 * sqs_aws_region: Default ``us-east-1``. AWS Region
-* sqs_aws_queue: SQS queue (must exist)
+* sqs_aws_queue: SQS queue, or comma delimited list of queues (must exist)
 * sqs_aws_queue_owner_acct_id: Optional. Defaults ``None``. Account ID or Principal allowed to write to queue
+* sqs_bulk_lines: Optional. Send multiple log entries in a single SQS message (cost saving benefit on larger environments)
 * kinesis_aws_access_key: Can be left blank to use IAM roles or AWS_ACCESS_KEY_ID environment variable (see: https://github.com/boto/boto#getting-started-with-boto)
 * kinesis_aws_secret_key: Can be left blank to use IAM Roles or AWS_SECRET_ACCESS_KEY environment variable (see: https://github.com/boto/boto#getting-started-with-boto)
 * kinesis_aws_region: Default ``us-east-1``. AWS Region
@@ -114,6 +117,7 @@ The following are used for instances when a TransportException is thrown - Trans
 
 * respawn_delay: Default ``3``. Initial respawn delay for exponential backoff
 * max_failure: Default ``7``. Max failures before exponential backoff terminates
+* max_queue_size: Default ``100``. Max log entries Beaver can store in it's queue before backing off until they have been transmitted
 
 The following configuration keys are for SinceDB support. Specifying these will enable saving the current line number in an sqlite database. This is useful for cases where you may be restarting the Beaver process, such as during a logrotate.
 
@@ -494,7 +498,7 @@ SQS Transport::
     # /etc/beaver/conf
     [beaver]
     sqs_aws_region: us-east-1
-    sqs_aws_queue: logstash-input
+    sqs_aws_queue: logstash-input1,logstash-input2
     sqs_aws_access_key: <access_key>
     sqs_aws_secret_key: <secret_key>
 
@@ -527,7 +531,7 @@ Kinesis Transport::
     # From the commandline
     beaver -c /etc/beaver/conf -t kinesis
 
-Mqtt transport using Mosquitto::
+Mqtt transport using Paho::
 
     # /etc/beaver/conf
     [beaver]

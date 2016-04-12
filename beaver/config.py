@@ -63,7 +63,7 @@ class BeaverConfig():
             'kafka_batch_n': os.environ.get('KAFKA_BATCH_N', 10),
             'kafka_batch_t': os.environ.get('KAFKA_BATCH_T', 10),
             'kafka_round_robin': os.environ.get('KAFKA_ROUND_ROBIN', False),
-            'mqtt_clientid': 'mosquitto',
+            'mqtt_clientid': 'paho',
             'mqtt_host': 'localhost',
             'mqtt_port': '1883',
             'mqtt_topic': '/logstash',
@@ -84,6 +84,7 @@ class BeaverConfig():
             'rabbitmq_ha_queue': os.environ.get('RABBITMQ_HA_QUEUE', '0'),
             'rabbitmq_key': os.environ.get('RABBITMQ_KEY', 'logstash-key'),
             'rabbitmq_exchange': os.environ.get('RABBITMQ_EXCHANGE', 'logstash-exchange'),
+            'rabbitmq_timeout': '1',
             'rabbitmq_delivery_mode': 1,
             'redis_url': os.environ.get('REDIS_URL', 'redis://localhost:6379/0'),
             'redis_namespace': os.environ.get('REDIS_NAMESPACE', 'logstash:beaver'),
@@ -96,9 +97,11 @@ class BeaverConfig():
             'sns_aws_topic_arn': '',
             'sqs_aws_access_key': '',
             'sqs_aws_secret_key': '',
+            'sqs_aws_profile_name': '',
             'sqs_aws_region': 'us-east-1',
             'sqs_aws_queue': '',
             'sqs_aws_queue_owner_acct_id': '',
+            'sqs_bulk_lines': False,
             'kinesis_aws_access_key': '',
             'kinesis_aws_secret_key': '',
             'kinesis_aws_region': 'us-east-1',
@@ -179,10 +182,7 @@ class BeaverConfig():
             'debug': '0',
             'daemonize': '0',
             'pid': '',
-
-            # Ignore files older then n days, use 0 to disable
             'ignore_old_files': 0,
-
             # Worker Loop interval
             'worker_loop_interval': 0.1
         }
@@ -317,6 +317,7 @@ class BeaverConfig():
                 'max_queue_size',
                 'queue_timeout',
                 'rabbitmq_port',
+                'rabbitmq_timeout',
                 'rabbitmq_delivery_mode',
                 'respawn_delay',
                 'subprocess_poll_sleep',

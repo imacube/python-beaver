@@ -1,6 +1,149 @@
 Changelog
 =========
 
+36.2.0 (2016-04-12)
+-------------------
+
+- Replaced Mosquitto with Paho-mqtt for mqtt transport. [Justin van
+  Heerde]
+
+- Add log file rotate in limit size. [soarpenguin]
+
+- Fix README.rst docs link. [Andrew Grigorev]
+
+36.0.1 (2016-01-13)
+-------------------
+
+- Fix README.rst formatting for rst-lint. [Jose Diaz-Gonzalez]
+
+- Remove tabs and use "except .. as .." [EYJ]
+
+- Try to fix hanging test by joining leftover thread. [EYJ]
+
+- Fix Queue timeout occurring after successful reconnect. [EYJ]
+
+- Fix rabbitmq reconnection behaviour to use the beaver reconnect
+  mechanism. [EYJ]
+
+- Migrating repo locations. [Jamie Cressey]
+
+- Fixups for CONTRIBUTING. [Jamie Cressey]
+
+- Fixing formatting. [Jamie Cressey]
+
+- Changes to guidelines and adding reference to README. [Jamie Cressey]
+
+- Adding contributing guidelines. [Jamie Cressey]
+
+36.0.0 (2015-12-15)
+-------------------
+
+- Adding max_queue_size to docs. [Jamie Cressey]
+
+- Pinning kafka-python version. [Jamie Cressey]
+
+- Ensure we test against the latest version of kafka-python. [Jamie
+  Cressey]
+
+- Attempt to reconnect to Kafka on failure. [Jamie Cressey]
+
+- Adding SQS tests. [Jamie Cressey]
+
+- Exclude gh-pages from TravisCI runs. [Jamie Cressey]
+
+- Adding coverage results to README. [Jamie Cressey]
+
+- Adding coverage tests. [Jamie Cressey]
+
+- We say Py2.6+ is a requirement, but do the tests actually pass on 2.6?
+  [Jamie Cressey]
+
+- Dont test py3, yet... [Jamie Cressey]
+
+- Testing python 3.x. [Jamie Cressey]
+
+- Using new travis config. [Jamie Cressey]
+
+- Added requests as a dependency. [Jose Diaz-Gonzalez]
+
+  Closes #304
+
+- Bump debian version on release. [David Moravek]
+
+- Support both older and newer pika. [Tim Stoop]
+
+- Make reconnecting to a lost RabbitMQ work. [Tim Stoop]
+
+- Remove old worker code in favor of the - now non-experimental -
+  TailManager. [Jose Diaz-Gonzalez]
+
+35.0.2 (2015-12-03)
+-------------------
+
+- Write to the SQS object not the dict when using sqs_bulk_lines flag.
+  [Jamie Cressey]
+
+35.0.1 (2015-11-26)
+-------------------
+
+- Remove autospec attribute. [Jose Diaz-Gonzalez]
+
+  For some reason, this broke attribute setting on the mock SelectConnection.
+
+
+- Fix pika version to version with all named parameters. [Jose Diaz-
+  Gonzalez]
+
+- Peg kafka to a known-good version. [Jose Diaz-Gonzalez]
+
+35.0.0 (2015-11-26)
+-------------------
+
+- Remove gitchangelog.rc. [Jose Diaz-Gonzalez]
+
+- Merging changes. [Jamie Cressey]
+
+- Added configuration option ignore_old_files. [Ryan Steele]
+
+  Files older then n days are ignored
+
+
+- Support writes into multiple redis namespaces. [Andrei Vaduva]
+
+- Adding support for multiple SQS queues. [Jamie Cressey]
+
+- Ensure log lines confirm to utf-8 standard. [Jamie Cressey]
+
+  We've come across cases when certain characters break Beaver transmitting log lines. This PR ensures all log lines correctly conform to UTF-8 when they're formatted for transmission.
+
+- Set timeout to 1 second. [Tim Stoop]
+
+  Apparantly, it needs to be an integer, so we cannot use pika's default
+  of .25.
+
+
+- Revert "Lower the default to .25, which is pika's default." [Tim
+  Stoop]
+
+  This reverts commit 17157990a272e458cc9253666f01c6002b84bda8.
+
+
+- Lower the default to .25, which is pika's default. [Tim Stoop]
+
+  As suggested by @kitchen.
+
+
+- Pieter's patch for rabbitmq timeout. [Tim Stoop]
+
+- Typo in config variable default value. [Jamie Cressey]
+
+- Fix regressed change. [Jamie Cressey]
+
+- Ability to send multiple log entries per single SQS message. [Jamie
+  Cressey]
+
+- Adding AWS profile authentication to SQS transport. [Jamie Cressey]
+
 34.1.0 (2015-08-10)
 -------------------
 
@@ -98,6 +241,9 @@ Changelog
   Nektarios]
 
   See at #312
+
+33.3.0 (2015-04-08)
+-------------------
 
 - Basic docs for GELF formatter. [Oleg Rekutin]
 

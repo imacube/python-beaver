@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
+import sys
+if sys.version_info < (2, 7):
+    import unittest2 as unittest
+else:
+    import unittest
+
 import fakeredis
 import logging
 import mock
 import tempfile
-import unittest
 
 import beaver
 from beaver.config import BeaverConfig
@@ -19,11 +24,12 @@ except ImportError, e:
     else:
         raise
 
+
 class DummyTransport(BaseTransport):
     pass
 
 
-with mock.patch('pika.adapters.SelectConnection', autospec=True) as mock_pika:
+with mock.patch('pika.adapters.SelectConnection') as mock_pika:
 
     class TransportConfigTests(unittest.TestCase):
         def setUp(self):
@@ -38,6 +44,7 @@ with mock.patch('pika.adapters.SelectConnection', autospec=True) as mock_pika:
             beaver_config = self._get_config(transport='rabbitmq')
             transport = create_transport(beaver_config, logger=self.logger)
             self.assertIsInstance(transport, beaver.transports.rabbitmq_transport.RabbitmqTransport)
+            transport.interrupt()
 
         @mock.patch('redis.StrictRedis', fakeredis.FakeStrictRedis)
         def test_builtin_redis(self):
